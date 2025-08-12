@@ -38,6 +38,8 @@
         <log4j.version>2.6.2</log4j.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
         <!-- SonarCloud configuration -->
@@ -124,10 +126,10 @@
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <encoding>UTF-8</encoding>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
@@ -166,7 +168,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.8</version>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -176,38 +178,21 @@
                     </execution>
                     <execution>
                         <id>jacoco-report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco-ut</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <propertyName>surefireArgLine</propertyName>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
-                <configuration>
-                    <argLine>${surefireArgLine}</argLine>
-                </configuration>
+                <version>3.0.0-M9</version>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
+                <version>3.10.0.2594</version>
             </plugin>
         </plugins>
     </build>

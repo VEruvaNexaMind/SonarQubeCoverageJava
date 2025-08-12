@@ -1,6 +1,7 @@
-name: Run SonarQube with Maven
+name: SonarCloud with Maven (Alternative)
 
-on: push
+on:
+  workflow_dispatch:  # Manual trigger only
 
 jobs:
   build:
@@ -15,18 +16,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
     - name: Build and test
       run: mvn clean verify
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+    - name: Debug Maven settings
+      run: |
+        mvn -version
+        mvn help:effective-settings
+        echo "SonarCloud URL test:"
+        curl -I https://sonarcloud.io/api/server/version || true
+    - name: Run SonarCloud analysis with debug
+      run: mvn sonar:sonar -X -Dsonar.token=$SONAR_TOKEN
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
